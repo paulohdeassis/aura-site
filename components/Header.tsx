@@ -25,21 +25,31 @@ function FlagSwitcher({ size = "1.2em", gap = "gap-2" }: { size?: string; gap?: 
             aria-pressed={isActive}
             title={label}
             className="flex items-center justify-center rounded-sm transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-current"
-            style={{
-              opacity: isActive ? 1 : 0.4,
-              boxShadow: isActive ? "0 0 0 1.5px var(--color-floresta)" : "none",
-              transform: isActive ? "scale(1.08)" : "scale(1)",
-            }}
+            style={{ minWidth: 44, minHeight: 44 }}
             onMouseEnter={(e) => {
-              if (!isActive) (e.currentTarget as HTMLButtonElement).style.opacity = "0.7";
+              if (!isActive) {
+                const f = e.currentTarget.firstElementChild as HTMLElement;
+                if (f) f.style.opacity = "0.7";
+              }
             }}
             onMouseLeave={(e) => {
-              if (!isActive) (e.currentTarget as HTMLButtonElement).style.opacity = "0.4";
+              if (!isActive) {
+                const f = e.currentTarget.firstElementChild as HTMLElement;
+                if (f) f.style.opacity = "0.4";
+              }
             }}
           >
             <span
               className={`fi fi-${code}`}
-              style={{ width: size, borderRadius: "2px", display: "block" }}
+              style={{
+                width: size,
+                borderRadius: "2px",
+                display: "block",
+                opacity: isActive ? 1 : 0.4,
+                boxShadow: isActive ? "0 0 0 1.5px var(--color-floresta)" : "none",
+                transform: isActive ? "scale(1.08)" : "scale(1)",
+                transition: "opacity 150ms ease, transform 150ms ease",
+              }}
               aria-hidden="true"
             />
           </button>
@@ -116,7 +126,7 @@ export default function Header() {
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           scrolled
-            ? "bg-nevoa/95 backdrop-blur-md border-b border-linho"
+            ? "bg-nevoa/95 border-b border-linho"
             : "bg-transparent"
         }`}
       >
@@ -165,7 +175,7 @@ export default function Header() {
               <FlagSwitcher size="1.1em" gap="gap-2" />
 
               <a
-                href="#comecar"
+                href="#planos"
                 className={`px-4 py-2 text-caption font-medium rounded-button transition-all duration-200 ${
                   scrolled
                     ? "bg-floresta text-nevoa hover:bg-musgo"
@@ -179,9 +189,10 @@ export default function Header() {
             {/* Mobile hamburger */}
             <button
               ref={hamburgerRef}
-              className={`lg:hidden flex flex-col gap-1.5 p-2 -mr-2 transition-colors duration-200 ${
+              className={`lg:hidden flex flex-col items-center justify-center gap-1.5 -mr-2 transition-colors duration-200 ${
                 scrolled ? "text-carvao" : "text-nevoa"
               }`}
+              style={{ minWidth: 44, minHeight: 44 }}
               onClick={() => setMenuOpen(!menuOpen)}
               aria-label={menuOpen ? "Fechar menu" : "Abrir menu"}
               aria-expanded={menuOpen}
@@ -237,7 +248,7 @@ export default function Header() {
         </div>
         <div className="px-8 pb-12 flex flex-col gap-4">
           <a
-            href="#comecar"
+            href="#planos"
             onClick={() => setMenuOpen(false)}
             className="menu-link w-full py-4 text-center bg-nevoa text-carvao rounded-button text-body font-medium"
             style={{ animationDelay: menuOpen ? `${navLinks.length * 70}ms` : "0ms" }}

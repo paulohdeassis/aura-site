@@ -85,26 +85,36 @@ export default function OrderSummary({ totals }: Props) {
         </div>
       )}
 
-      <div className="border-t my-4" style={{ borderColor: "var(--color-linho)" }} />
-
-      {/* Primeira cobrança */}
-      <div className="flex items-baseline justify-between">
-        <span className="text-body font-medium text-carvao">
-          Total na 1ª cobrança
-        </span>
-        <span
-          className="font-mono font-medium text-carvao"
-          style={{ fontFamily: "var(--font-mono)", fontSize: "1.5rem" }}
-        >
-          {formatBRL(totals.firstChargeCents)}
-        </span>
+      {/* Primeira cobrança — destaque verde, sangra até as bordas do card */}
+      <div
+        className="mt-5 -mx-6 -mb-6 px-6 py-5 rounded-b-card"
+        style={{ backgroundColor: "var(--color-floresta)" }}
+      >
+        <div className="flex items-baseline justify-between">
+          <span
+            className="text-body font-medium"
+            style={{ color: "var(--color-nevoa)" }}
+          >
+            Total na 1ª cobrança
+          </span>
+          <span
+            className="font-mono font-medium"
+            style={{
+              fontFamily: "var(--font-mono)",
+              fontSize: "1.5rem",
+              color: "var(--color-nevoa)",
+            }}
+          >
+            {formatBRL(totals.firstChargeCents)}
+          </span>
+        </div>
+        {totals.oneTimeCents > 0 && (
+          <p className="text-fine mt-1" style={{ color: "rgba(245,241,236,0.72)" }}>
+            Depois, {formatBRL(totals.recurringCents)}
+            {cadence}.
+          </p>
+        )}
       </div>
-      {totals.oneTimeCents > 0 && (
-        <p className="text-fine text-pedra mt-1">
-          Depois, {formatBRL(totals.recurringCents)}
-          {cadence}.
-        </p>
-      )}
     </div>
   );
 }

@@ -24,7 +24,7 @@ export default function Hero() {
         className="absolute inset-0 z-10"
         style={{
           background:
-            "linear-gradient(to bottom, rgba(30,45,37,0.35) 0%, rgba(30,45,37,0.25) 40%, rgba(30,45,37,0.75) 100%)",
+            "linear-gradient(to bottom, rgba(30,45,37,0.42) 0%, rgba(30,45,37,0.30) 40%, rgba(30,45,37,0.80) 100%)",
         }}
       />
 
@@ -32,7 +32,7 @@ export default function Hero() {
       <div className="relative z-20 max-w-7xl mx-auto px-5 md:px-8 lg:px-12 pb-16 md:pb-20 lg:pb-24 w-full">
         {/* Eyebrow */}
         <div className="flex items-center gap-3 mb-6 anim-fade">
-          <span className="text-nevoa/50 text-fine tracking-aura font-medium uppercase">
+          <span className="text-nevoa text-fine tracking-aura font-medium uppercase">
             {h.eyebrow}
           </span>
         </div>
@@ -61,7 +61,7 @@ export default function Hero() {
         {/* CTAs */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-14 anim-fade-3 flex-wrap">
           <a
-            href="#comecar"
+            href="#planos"
             className="inline-flex items-center justify-center px-7 py-3.5 bg-nevoa text-carvao text-body font-medium rounded-button hover:bg-linho transition-colors duration-200"
           >
             {h.ctaPrimary}
@@ -80,7 +80,7 @@ export default function Hero() {
           style={{ borderColor: "rgba(245,241,236,0.15)" }}
         >
           <p
-            className="font-display italic text-nevoa/70 text-body"
+            className="font-display italic text-nevoa/80 text-body"
             style={{ fontFamily: "var(--font-display)", fontStyle: "italic" }}
           >
             {h.statsTagline}
@@ -89,15 +89,9 @@ export default function Hero() {
       </div>
 
       {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 anim-fade-4">
-        <div
-          className="w-px h-10 relative overflow-hidden rounded-full"
-          style={{ backgroundColor: "rgba(245,241,236,0.25)" }}
-        >
-          <div
-            className="scroll-dot absolute top-0 left-0 w-full rounded-full"
-            style={{ height: "40%", backgroundColor: "rgba(245,241,236,0.65)" }}
-          />
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center anim-fade-4">
+        <div className="scroll-track">
+          <div className="scroll-dot" />
         </div>
       </div>
     </section>

@@ -81,45 +81,58 @@ export default function CheckoutClient({
   };
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: "var(--color-nevoa)" }}>
+    <div
+      className="min-h-screen grain"
+      style={{
+        background:
+          "linear-gradient(180deg, var(--color-floresta-900) 0%, var(--color-floresta-800) 50%, var(--color-floresta-700) 100%)",
+      }}
+    >
       {/* Top bar */}
       <header
         className="sticky top-0 z-10 border-b"
         style={{
-          backgroundColor: "rgba(245,241,236,0.85)",
-          borderColor: "var(--color-linho)",
-          backdropFilter: "blur(8px)",
+          backgroundColor: "rgba(30,45,37,0.72)",
+          borderColor: "rgba(245,241,236,0.12)",
+          backdropFilter: "blur(10px)",
         }}
       >
         <div className="max-w-6xl mx-auto px-5 md:px-8 h-16 flex items-center justify-between">
           <Link
             href="/#planos"
-            className="text-caption text-pedra link-under inline-flex items-center gap-2"
+            className="text-caption link-under inline-flex items-center gap-2"
+            style={{ color: "rgba(245,241,236,0.78)" }}
           >
             ← Voltar aos planos
           </Link>
           <span
             className="text-fine font-medium tracking-aura inline-flex items-center gap-2"
-            style={{ color: "var(--color-musgo)" }}
+            style={{ color: "var(--color-salvia)" }}
           >
             <LockIcon /> Pagamento seguro
           </span>
         </div>
       </header>
 
-      <main className="max-w-6xl mx-auto px-5 md:px-8 py-10 md:py-14">
+      <main className="relative z-10 max-w-6xl mx-auto px-5 md:px-8 py-10 md:py-14">
         {result ? (
           <PaymentResult result={result} onEdit={() => setResult(null)} />
         ) : (
           <>
             <div className="mb-10">
               <h1
-                className="font-display text-title text-carvao"
-                style={{ fontFamily: "var(--font-display)" }}
+                className="font-display text-title"
+                style={{
+                  fontFamily: "var(--font-display)",
+                  color: "var(--color-nevoa)",
+                }}
               >
                 Monte sua assinatura
               </h1>
-              <p className="text-body text-pedra mt-2 max-w-lg">
+              <p
+                className="text-body mt-2 max-w-lg"
+                style={{ color: "rgba(245,241,236,0.74)" }}
+              >
                 Escolha o plano, os adicionais e a forma de cobrança. O resumo
                 atualiza em tempo real.
               </p>
@@ -201,7 +214,7 @@ function CycleToggle({
   ];
   return (
     <fieldset>
-      <legend className="section-label mb-4" style={{ color: "var(--color-pedra)" }}>
+      <legend className="section-label mb-4" style={{ color: "rgba(245,241,236,0.7)" }}>
         Forma de cobrança
       </legend>
       <div

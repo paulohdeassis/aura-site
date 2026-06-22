@@ -29,7 +29,7 @@ export default function AddonSelector({
 
   return (
     <fieldset>
-      <legend className="section-label mb-4" style={{ color: "var(--color-pedra)" }}>
+      <legend className="section-label mb-4" style={{ color: "rgba(245,241,236,0.7)" }}>
         2 — Adicionais
       </legend>
 

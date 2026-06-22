@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
+import Reveal from "./Reveal";
 
 type FeatureImage = {
   number: string;
@@ -63,7 +64,7 @@ export default function FeaturesSection() {
           >
             <p
               className="section-label mb-6"
-              style={{ color: "rgba(245,241,236,0.5)" }}
+              style={{ color: "rgba(245,241,236,0.8)" }}
             >
               {t.features.sectionLabel}
             </p>
@@ -75,7 +76,7 @@ export default function FeaturesSection() {
             </h2>
             <p
               className="text-body"
-              style={{ color: "rgba(245,241,236,0.65)" }}
+              style={{ color: "rgba(245,241,236,0.84)" }}
             >
               {t.features.sub}
             </p>
@@ -88,7 +89,7 @@ export default function FeaturesSection() {
               </div>
               <span
                 className="text-fine tracking-aura"
-                style={{ color: "rgba(245,241,236,0.35)" }}
+                style={{ color: "rgba(245,241,236,0.78)" }}
               >
                 {t.features.scrollHint}
               </span>
@@ -104,7 +105,7 @@ export default function FeaturesSection() {
             {t.features.items.map((f, idx) => {
               const layout = featureImages[idx];
               return (
-                <div
+                <Reveal
                   key={layout.number}
                   className="px-5 md:px-8 lg:px-12 xl:px-16 py-16 md:py-20 border-b"
                   style={{ borderColor: "rgba(245,241,236,0.12)" }}
@@ -115,14 +116,14 @@ export default function FeaturesSection() {
                       className="font-mono text-fine font-medium tabular-nums"
                       style={{
                         fontFamily: "var(--font-mono)",
-                        color: "rgba(245,241,236,0.3)",
+                        color: "rgba(245,241,236,0.78)",
                       }}
                     >
                       {layout.number}
                     </span>
                     <span
                       className="section-label"
-                      style={{ color: "rgba(245,241,236,0.5)" }}
+                      style={{ color: "rgba(245,241,236,0.8)" }}
                     >
                       {f.tag}
                     </span>
@@ -139,7 +140,7 @@ export default function FeaturesSection() {
                   {/* Descrição */}
                   <p
                     className="text-body mb-5 max-w-lg"
-                    style={{ color: "rgba(245,241,236,0.7)" }}
+                    style={{ color: "rgba(245,241,236,0.84)" }}
                   >
                     {f.desc}
                   </p>
@@ -147,15 +148,18 @@ export default function FeaturesSection() {
                   {/* Detalhe (chips) */}
                   <p
                     className="text-fine font-medium tracking-aura"
-                    style={{ color: "rgba(245,241,236,0.4)" }}
+                    style={{ color: "rgba(245,241,236,0.78)" }}
                   >
                     {f.detail}
                   </p>
 
                   {/* Imagem */}
-                  <div
+                  <Reveal
+                    delay={140}
+                    duration={800}
                     className="mt-8 rounded-card overflow-hidden shadow-elevated"
                     style={{ backgroundColor: layout.bgColor ?? "transparent" }}
+                    from={{ opacity: 0, transform: "scale(1.05)" }}
                   >
                     <div
                       className="relative"
@@ -179,45 +183,10 @@ export default function FeaturesSection() {
                         />
                       )}
                     </div>
-                  </div>
-                </div>
+                  </Reveal>
+                </Reveal>
               );
             })}
-
-            {/* Extranet callout */}
-            <div className="px-5 md:px-8 lg:px-12 xl:px-16 py-16 md:py-20">
-              <div
-                className="p-8 md:p-10 rounded-card"
-                style={{
-                  backgroundColor: "#ffffff",
-                  boxShadow: "0 4px 32px rgba(30,45,37,0.12)",
-                }}
-              >
-                <div className="flex flex-col gap-4">
-                  <div className="flex flex-wrap items-center gap-3">
-                    <span className="section-label">Exclusivo Aura</span>
-                    <span
-                      className="inline-block px-3 py-1 rounded-full text-fine font-medium"
-                      style={{
-                        backgroundColor: "var(--color-floresta)",
-                        color: "#ffffff",
-                      }}
-                    >
-                      {t.features.extranet.detail}
-                    </span>
-                  </div>
-                  <h3
-                    className="font-display text-card md:text-section text-carvao"
-                    style={{ fontFamily: "var(--font-display)" }}
-                  >
-                    {t.features.extranet.title}
-                  </h3>
-                  <p className="text-body text-pedra max-w-lg">
-                    {t.features.extranet.desc}
-                  </p>
-                </div>
-              </div>
-            </div>
           </div>
 
         </div>

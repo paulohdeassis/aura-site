@@ -1,23 +1,34 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, type CSSProperties } from "react";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
+import Reveal from "./Reveal";
 
 function easeOut(t: number): number {
   return 1 - Math.pow(1 - t, 3);
 }
 
-function useCounterAnimation(target: number, duration: number, active: boolean) {
+function useCounterAnimation(
+  target: number,
+  duration: number,
+  active: boolean,
+  startDelay = 0
+) {
   const [value, setValue] = useState(0);
 
   useEffect(() => {
     if (!active) return;
-    const start = performance.now();
     let raf: number;
+    let start: number | null = null;
 
     function tick(now: number) {
+      if (start === null) start = now + startDelay;
       const elapsed = now - start;
+      if (elapsed < 0) {
+        raf = requestAnimationFrame(tick);
+        return;
+      }
       const progress = Math.min(elapsed / duration, 1);
       setValue(Math.round(easeOut(progress) * target));
       if (progress < 1) raf = requestAnimationFrame(tick);
@@ -25,7 +36,7 @@ function useCounterAnimation(target: number, duration: number, active: boolean) 
 
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [active, target, duration]);
+  }, [active, target, duration, startDelay]);
 
   return value;
 }
@@ -53,13 +64,31 @@ export default function DirectBookingSection() {
     return () => observer.disconnect();
   }, []);
 
-  const DURATION = 2200;
-  const otaValue   = useCounterAnimation(425, DURATION, animated);
-  const feeValue   = useCounterAnimation(75,  DURATION, animated);
-  const directValue = useCounterAnimation(500, DURATION, animated);
+  // OTA breakdown reveals first; the Aura comparison lands a beat later.
+  const DURATION = 1300;
+  const AURA_DELAY = 380;
+  const otaValue    = useCounterAnimation(425, DURATION, animated);
+  const feeValue    = useCounterAnimation(75,  DURATION, animated);
+  const directValue = useCounterAnimation(500, DURATION, animated, AURA_DELAY);
 
-  const otaWidth    = animated ? "85%"  : "0%";
-  const directWidth = animated ? "100%" : "0%";
+  // Fee share is constant across the animation (both values share one easing),
+  // so derive it from the targets to avoid a flickering 0% at the start.
+  const feePercent = Math.round((75 / 500) * 100);
+
+  // Bars grow via scaleX (GPU-composited, no layout) matching the counters.
+  const barEase = "cubic-bezier(0.33, 1, 0.68, 1)";
+  const otaFill: CSSProperties = {
+    transformOrigin: "left",
+    transform: animated ? "scaleX(0.85)" : "scaleX(0)",
+    transition: animated ? `transform ${DURATION}ms ${barEase}` : "none",
+  };
+  const directFill: CSSProperties = {
+    transformOrigin: "left",
+    transform: animated ? "scaleX(1)" : "scaleX(0)",
+    transition: animated
+      ? `transform ${DURATION}ms ${barEase} ${AURA_DELAY}ms`
+      : "none",
+  };
 
   return (
     <section
@@ -71,7 +100,8 @@ export default function DirectBookingSection() {
         src="/images/countryside.jpg"
         alt=""
         fill
-        className="object-cover object-center opacity-15"
+        className="object-cover object-center opacity-20"
+        style={{ filter: "brightness(0.7)" }}
         sizes="100vw"
       />
 
@@ -80,7 +110,7 @@ export default function DirectBookingSection() {
 
           {/* Left: Headline + copy */}
           <div className="flex-1 max-w-xl">
-            <p className="section-label mb-6" style={{ color: "rgba(245,241,236,0.5)" }}>
+            <p className="section-label mb-6" style={{ color: "rgba(245,241,236,0.74)" }}>
               {t.directBooking.sectionLabel}
             </p>
             <h2
@@ -139,7 +169,7 @@ export default function DirectBookingSection() {
                     className="font-mono text-caption font-medium"
                     style={{ fontFamily: "var(--font-mono)", color: "var(--color-pedra)" }}
                   >
-                    R$ {feeValue} ({Math.round((feeValue / (otaValue + feeValue || 1)) * 100) || 0}%)
+                    R$ {feeValue} ({feePercent}%)
                   </span>
                 </div>
                 <div
@@ -147,11 +177,11 @@ export default function DirectBookingSection() {
                   style={{ backgroundColor: "var(--color-linho)" }}
                 >
                   <div
-                    className="h-full rounded-full"
+                    className="h-full w-full rounded-full"
                     style={{
-                      width: otaWidth,
-                      backgroundColor: "var(--color-musgo)",
-                      transition: animated ? "width 2.2s cubic-bezier(0.22,1,0.36,1)" : "none",
+                      ...otaFill,
+                      background:
+                        "linear-gradient(90deg, var(--color-musgo), var(--color-floresta-400))",
                     }}
                   />
                 </div>
@@ -179,11 +209,11 @@ export default function DirectBookingSection() {
                   style={{ backgroundColor: "var(--color-linho)" }}
                 >
                   <div
-                    className="h-full rounded-full"
+                    className="h-full w-full rounded-full"
                     style={{
-                      width: directWidth,
-                      backgroundColor: "var(--color-dourado)",
-                      transition: animated ? "width 2.2s cubic-bezier(0.22,1,0.36,1)" : "none",
+                      ...directFill,
+                      background:
+                        "linear-gradient(90deg, var(--color-dourado), var(--color-madeira))",
                     }}
                   />
                 </div>
@@ -201,6 +231,39 @@ export default function DirectBookingSection() {
             </div>
           </div>
         </div>
+
+        {/* Extranet callout */}
+        <Reveal
+          className="mt-12 lg:mt-16 p-8 md:p-10 rounded-card"
+          style={{
+            backgroundColor: "#ffffff",
+            boxShadow: "0 4px 32px rgba(0,0,0,0.18)",
+          }}
+        >
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-wrap items-center gap-3">
+              <span className="section-label">Exclusivo Aura</span>
+              <span
+                className="inline-block px-3 py-1 rounded-full text-fine font-medium"
+                style={{
+                  backgroundColor: "var(--color-floresta)",
+                  color: "#ffffff",
+                }}
+              >
+                {t.directBooking.extranet.detail}
+              </span>
+            </div>
+            <h3
+              className="font-display text-card md:text-section text-carvao"
+              style={{ fontFamily: "var(--font-display)" }}
+            >
+              {t.directBooking.extranet.title}
+            </h3>
+            <p className="text-body text-pedra max-w-lg">
+              {t.directBooking.extranet.desc}
+            </p>
+          </div>
+        </Reveal>
       </div>
     </section>
   );

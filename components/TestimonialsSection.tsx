@@ -14,7 +14,7 @@ export default function TestimonialsSection() {
       <div className="relative z-10 max-w-7xl mx-auto px-5 md:px-8 lg:px-12">
         {/* Header */}
         <div className="mb-12 md:mb-16">
-          <p className="section-label mb-6" style={{ color: "rgba(245,241,236,0.4)" }}>
+          <p className="section-label mb-6" style={{ color: "rgba(245,241,236,0.62)" }}>
             {t.testimonials.sectionLabel}
           </p>
           <h2

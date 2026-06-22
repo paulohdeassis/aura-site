@@ -8,10 +8,10 @@ export default function Footer() {
   return (
     <footer style={{ backgroundColor: "var(--color-carvao)" }}>
       <style>{`
-        .footer-link { color: rgba(212,200,184,0.6); transition: color 200ms ease; }
-        .footer-link:hover { color: rgba(245,241,236,0.9); }
-        .footer-legal { color: rgba(212,200,184,0.35); transition: color 200ms ease; }
-        .footer-legal:hover { color: rgba(212,200,184,0.65); }
+        .footer-link { color: rgba(212,200,184,0.72); transition: color 200ms ease; }
+        .footer-link:hover { color: rgba(245,241,236,0.95); }
+        .footer-legal { color: rgba(212,200,184,0.7); transition: color 200ms ease; }
+        .footer-legal:hover { color: rgba(245,241,236,0.9); }
       `}</style>
 
       <div className="max-w-7xl mx-auto px-5 md:px-8 lg:px-12 pt-14 md:pt-16 pb-8">
@@ -29,11 +29,11 @@ export default function Footer() {
               >
                 AURA<em style={{ fontStyle: "italic" }}> for </em>STAY
               </p>
-              <p className="text-fine tracking-aura mt-1" style={{ color: "rgba(212,200,184,0.4)" }}>
+              <p className="text-fine tracking-aura mt-1" style={{ color: "rgba(212,200,184,0.7)" }}>
                 {t.footer.tagline}
               </p>
             </div>
-            <p className="text-caption" style={{ color: "rgba(212,200,184,0.5)", lineHeight: 1.7 }}>
+            <p className="text-caption" style={{ color: "rgba(212,200,184,0.72)", lineHeight: 1.7 }}>
               {t.footer.desc}
             </p>
           </div>
@@ -44,7 +44,7 @@ export default function Footer() {
               <div key={category}>
                 <p
                   className="text-fine font-medium tracking-aura uppercase mb-5"
-                  style={{ color: "rgba(212,200,184,0.38)" }}
+                  style={{ color: "rgba(212,200,184,0.7)" }}
                 >
                   {category}
                 </p>
@@ -67,13 +67,6 @@ export default function Footer() {
           <p className="text-fine footer-legal">
             {t.footer.legal}
           </p>
-          <div className="flex items-center gap-5">
-            {[t.footer.privacy, t.footer.terms, t.footer.cookies].map((item) => (
-              <a key={item} href="#" className="footer-legal text-fine">
-                {item}
-              </a>
-            ))}
-          </div>
         </div>
       </div>
     </footer>

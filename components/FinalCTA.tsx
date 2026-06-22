@@ -17,7 +17,8 @@ export default function FinalCTA() {
         src="/images/countryside.jpg"
         alt=""
         fill
-        className="object-cover opacity-15"
+        className="object-cover opacity-20"
+        style={{ filter: "brightness(0.7)" }}
         sizes="100vw"
         aria-hidden="true"
       />
@@ -26,7 +27,7 @@ export default function FinalCTA() {
       <div className="relative z-10 max-w-7xl mx-auto px-5 md:px-8 lg:px-12 text-center">
         <p
           className="section-label mb-8"
-          style={{ color: "rgba(245,241,236,0.4)" }}
+          style={{ color: "rgba(245,241,236,0.74)" }}
         >
           {t.finalCta.sectionLabel}
         </p>
@@ -55,7 +56,7 @@ export default function FinalCTA() {
         {/* CTA group */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-4">
           <a
-            href="#signup"
+            href="#planos"
             className="px-8 py-4 rounded-button text-body font-medium transition-colors duration-200"
             style={{
               backgroundColor: "var(--color-nevoa)",
@@ -94,7 +95,7 @@ export default function FinalCTA() {
           </a>
         </div>
 
-        <p className="text-fine mb-24" style={{ color: "rgba(212,200,184,0.5)" }}>
+        <p className="text-fine mb-24" style={{ color: "rgba(212,200,184,0.75)" }}>
           {t.finalCta.noCreditCard}
         </p>
 
@@ -106,13 +107,13 @@ export default function FinalCTA() {
         >
           <p
             className="text-fine tracking-aura uppercase mb-6"
-            style={{ color: "rgba(245,241,236,0.35)" }}
+            style={{ color: "rgba(245,241,236,0.72)" }}
           >
             {t.finalCta.contactTitle}
           </p>
           <p
             className="text-body mb-8"
-            style={{ color: "rgba(245,241,236,0.65)", lineHeight: 1.7 }}
+            style={{ color: "rgba(245,241,236,0.82)", lineHeight: 1.7 }}
           >
             {t.finalCta.contactDesc}
           </p>
@@ -142,7 +143,7 @@ export default function FinalCTA() {
               aurastay.pms@gmail.com
             </a>
             <a
-              href="https://wa.me/5511999999999"
+              href="https://wa.me/5527988217702"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 px-6 py-3 rounded-button text-caption font-medium transition-all duration-200"

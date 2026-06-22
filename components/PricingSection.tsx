@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { PLANS } from "@/lib/checkout/catalog";
 
@@ -17,24 +18,39 @@ const SHOW_ADDON_MODULES = false;
 export default function PricingSection() {
   const { t } = useLanguage();
 
+  // Only run the animated Core-card border while the section is on screen.
+  const sectionRef = useRef<HTMLElement>(null);
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { rootMargin: "150px" }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   return (
     <section
+      ref={sectionRef}
       className="bg-floresta py-20 md:py-28 lg:py-36"
       id="planos"
     >
       <div className="max-w-7xl mx-auto px-5 md:px-8 lg:px-12">
         {/* Header */}
         <div className="mb-6">
-          <p className="section-label mb-6" style={{ color: "rgba(245,241,236,0.55)" }}>{t.pricing.sectionLabel}</p>
+          <p className="section-label mb-6" style={{ color: "rgba(245,241,236,0.8)" }}>{t.pricing.sectionLabel}</p>
           <h2
             className="font-display text-title text-nevoa"
             style={{ fontFamily: "var(--font-display)" }}
           >
             {t.pricing.headline}
-            <span className="text-nevoa/60"> {t.pricing.headlineSub}</span>
+            <span className="text-nevoa/75"> {t.pricing.headlineSub}</span>
           </h2>
         </div>
-        <p className="text-body mb-14 md:mb-16 max-w-lg" style={{ color: "rgba(245,241,236,0.7)" }}>
+        <p className="text-body mb-14 md:mb-16 max-w-lg" style={{ color: "rgba(245,241,236,0.84)" }}>
           {t.pricing.sub}
         </p>
 
@@ -47,7 +63,7 @@ export default function PricingSection() {
                 key={plan.name}
                 className={`flex flex-col rounded-card overflow-hidden transition-shadow duration-300 ${
                   highlighted
-                    ? "shadow-elevated animated-border-card"
+                    ? `shadow-elevated animated-border-card${inView ? " in-view" : ""}`
                     : "shadow-card hover:shadow-card-hover border"
                 }`}
                 style={{
@@ -92,13 +108,13 @@ export default function PricingSection() {
 
                   {/* Annual price */}
                   {"annualPrice" in plan && plan.annualPrice && (
-                    <p className="text-fine mb-4" style={{ color: "var(--color-musgo)", fontFamily: "var(--font-mono)" }}>
+                    <p className="text-caption mb-4" style={{ color: "var(--color-musgo)", fontFamily: "var(--font-mono)" }}>
                       {plan.annualPrice}
                     </p>
                   )}
 
                   {/* Tagline */}
-                  <p className="text-caption text-pedra mb-6">{plan.desc}</p>
+                  <p className="text-caption text-pedra mb-6" style={{ lineHeight: 1.45 }}>{plan.desc}</p>
 
                   {/* Divider */}
                   <div className="border-t mb-6" style={{ borderColor: "var(--color-linho)" }} />
@@ -154,7 +170,7 @@ export default function PricingSection() {
         {/* Modules — ocultos por enquanto (ver SHOW_ADDON_MODULES) */}
         {SHOW_ADDON_MODULES && (
         <div>
-          <p className="section-label mb-6" style={{ color: "rgba(245,241,236,0.55)" }}>{t.pricing.modulesTitle}</p>
+          <p className="section-label mb-6" style={{ color: "rgba(245,241,236,0.8)" }}>{t.pricing.modulesTitle}</p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {t.pricing.modules.map((m) => (
               <div
@@ -174,7 +190,7 @@ export default function PricingSection() {
                     + {m.price}
                   </span>
                 </div>
-                <p className="text-caption mb-3" style={{ color: "rgba(245,241,236,0.6)" }}>{m.desc}</p>
+                <p className="text-caption mb-3" style={{ color: "rgba(245,241,236,0.78)" }}>{m.desc}</p>
                 <p className="text-fine font-medium tracking-aura" style={{ color: "rgba(245,241,236,0.4)" }}>
                   {t.pricing.availablePlans}{m.available}
                 </p>
@@ -191,9 +207,9 @@ export default function PricingSection() {
         >
           <div className="flex-1">
             <h4 className="text-body font-medium text-nevoa mb-1">
-              {t.pricing.onboardingTitle} <span className="font-normal" style={{ color: "rgba(245,241,236,0.5)" }}>({t.pricing.onboardingNote})</span>
+              {t.pricing.onboardingTitle} <span className="font-normal" style={{ color: "rgba(245,241,236,0.8)" }}>({t.pricing.onboardingNote})</span>
             </h4>
-            <p className="text-caption" style={{ color: "rgba(245,241,236,0.6)" }}>
+            <p className="text-caption" style={{ color: "rgba(245,241,236,0.78)" }}>
               {t.pricing.onboardingDesc}
             </p>
           </div>
@@ -204,12 +220,12 @@ export default function PricingSection() {
             >
               {t.pricing.onboardingPrice}
             </span>
-            <p className="text-fine" style={{ color: "rgba(245,241,236,0.5)" }}>{t.pricing.onboardingNote}</p>
+            <p className="text-fine" style={{ color: "rgba(245,241,236,0.8)" }}>{t.pricing.onboardingNote}</p>
           </div>
         </div>
 
         {/* Bottom note */}
-        <p className="text-caption text-center mt-10" style={{ color: "rgba(245,241,236,0.5)" }}>
+        <p className="text-caption text-center mt-10" style={{ color: "rgba(245,241,236,0.8)" }}>
           {t.pricing.noCreditCard}
         </p>
       </div>
