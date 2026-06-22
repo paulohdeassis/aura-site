@@ -143,7 +143,7 @@ export default function FinalCTA() {
               aurastay.pms@gmail.com
             </a>
             <a
-              href="https://wa.me/5527988217702"
+              href="https://wa.me/5527997274747"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 px-6 py-3 rounded-button text-caption font-medium transition-all duration-200"
